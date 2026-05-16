@@ -42,8 +42,6 @@ export const useChat = () => {
         signal: abortControllerRef.current.signal,
       })
 
-      console.log(data)
-
       const contentText = data.response.content?.[0]?.text || ''
 
       setMessages((prev) =>

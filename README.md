@@ -1,73 +1,77 @@
-# React + TypeScript + Vite
+# AI Chat Module (Feature-Sliced Design)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Высокопроизводительный, отказоустойчивый и архитектурно чистый модуль чата, разработанный по методологии **Feature-Sliced Design (FSD)**. Приложение разделено на независимый клиентский слой (React + Vite + TS) и серверный слой (Node.js)[cite: 1].
 
-Currently, two official plugins are available:
+🔗 **Живая ссылка на проект:** [Опробовать AI Chat](https://chatgpt-client-frontend.onrender.com)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Основные особенности и преимущества
 
-## React Compiler
+- **Архитектура Feature-Sliced Design (FSD):** Строгое разделение ответственности (`shared`, `entities`, `features`, `widgets`), отсутствие циклических зависимостей, легкость масштабирования и тестирования[cite: 1].
+- **Сетевой Слой:** Централизованная обработка ошибок с помощью кастомной фабрики `normalizeError`. Приложение корректно обрабатывает сбои бэкенда, таймауты (15s) и сетевые обрывы, предотвращая "падение" интерфейса[cite: 1].
+- **Высокий уровень UX/UI:**
+  - Плавные состояния загрузки (`isLoading`) и индикация ошибок (`isError`) для каждого сообщения отдельно[cite: 1].
+  - Автоматический скролл к новым сообщениям[cite: 1].
+  - Поддержка ввода: отправка по `Enter` и поддержка голосового ввода.
+- **Отказоустойчивость (Resilience):** Интеграция `ErrorBoundary` на уровне виджета чата для изоляции непредвиденных ошибок фронтенда[cite: 1].
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 📂 Структура проекта (FSD)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Клиентская часть организована по слоям и сегментам FSD[cite: 1]:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+```text
+src/
+├── app/                  # Инициализация приложения, глобальные стили и провайдеры
+├── widgets/
+│   └── chat/             # Виджет чата, собирающий фичи и сущности воедино
+│       └── ui/
+│           └── ChatWidget.tsx
+├── features/
+│   └── send-message/     # Фича отправки сообщений (форма ввода, валидация)
+│       └── ui/
+│           └── MessageForm.tsx
+├── entities/
+│   └── message/          # Сущность сообщения (модель данных, компонент отображения)
+│       ├── model/
+│       │   └── types.ts
+│       └── ui/
+│           └── MessageItem.tsx
+└── shared/               # Переиспользуемый базовый код
+    ├── api/              # Сетевой слой (Axios-клиент, нормализация ошибок ApiError)
+    │   ├── client.ts
+    │   └── error.ts
+    └── ui/               # Базовые UI-компоненты (кнопки, спиннеры)
+```[cite: 1]
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 💻 Локальное развертывание
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Требования
+- Node.js (v18+)
+- npm / pnpm / yarn
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Шаг 1. Клонирование и установка зависимостей
+```bash
+git clone <url-вашего-репозитория>
+cd ai-chat-fsd
+npm install
+```[cite: 1]
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Шаг 2. Настройка окружения (.env)
+Создайте файл `.env` в корне проекта[cite: 1]:
+```env
+VITE_API_URL=http://localhost:5000/api
+```[cite: 1]
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Шаг 3. Запуск в режиме разработки
+```bash
+npm run dev
+```[cite: 1]
+
+### Шаг 4. Сборка проекта (Production)
+Проверка типов TypeScript и сборка через Vite[cite: 1]:
+```bash
+npm run build
+```[cite: 1]
+
+---
