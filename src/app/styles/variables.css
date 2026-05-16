@@ -1,0 +1,15 @@
+:root {
+  --bg: #072f6a;
+  --text: white;
+  --button-bg: #1e4b9b;
+  --border: #2355aa;
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+
+  font: 20px/100% var(--sans);
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
