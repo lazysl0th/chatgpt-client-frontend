@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { api } from '@shared/api'
-import type { ApiError } from '@shared/api/error'
+import { normalizeError } from '@shared/api/error'
 import type { IMessage } from '@entities/message'
 
 export const useChat = () => {
@@ -56,7 +56,7 @@ export const useChat = () => {
         ),
       )
     } catch (e) {
-      const apiError = e as ApiError
+      const apiError = normalizeError(e)
 
       if (
         apiError.name === 'CanceledError' ||
@@ -72,9 +72,7 @@ export const useChat = () => {
                 ...msg,
                 isLoading: false,
                 isError: true,
-                content:
-                  apiError.message ||
-                  'Не удалось получить ответ. Пожалуйста, попробуйте позже.',
+                content: apiError.message,
               }
             : msg,
         ),

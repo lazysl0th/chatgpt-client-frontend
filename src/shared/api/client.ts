@@ -13,7 +13,6 @@ export const api = {
         { text },
         { signal: config?.signal },
       )
-      console.log(res)
       return res.data
     },
   },

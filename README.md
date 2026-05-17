@@ -47,10 +47,12 @@ src/
 ## 💻 Локальное развертывание
 
 ### Требования
+
 - Node.js (v18+)
 - npm / pnpm / yarn
 
 ### Шаг 1. Клонирование и установка зависимостей
+
 ```bash
 git clone <url-вашего-репозитория>
 cd ai-chat-fsd
@@ -58,18 +60,23 @@ npm install
 ```
 
 ### Шаг 2. Настройка окружения (.env)
+
 Создайте файл `.env` в корне проекта:
+
 ```env
 VITE_API_URL=http://localhost:5000/api
 ```
 
 ### Шаг 3. Запуск в режиме разработки
+
 ```bash
 npm run dev
 ```
 
 ### Шаг 4. Сборка проекта (Production)
+
 Проверка типов TypeScript и сборка через Vite:
+
 ```bash
 npm run build
 ```
